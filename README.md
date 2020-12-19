@@ -11,3 +11,11 @@ the game and lead them to visit the official tourism website in hopes they would
 
 External user’s goal: The target audience are seeking for ideas on where to go for their next holiday and come across the game, 
 which they become interested in learning more about the available attractions to visit in Indonesia and go to the tourism board web to book.
+
+## Demo 
+
+Link to the game: 
+
+## Strategy 
+
+
