@@ -1,18 +1,31 @@
 <template>
-    <div>
+    <div class="container">
         <h1> Cards </h1>
-        <!-- <button v-on:click="loadCities">Load Cities</button>  -->
-        <!-- <div>
-            <label>Filter faults by cities: </label>
-            <input type='text' v-model="searchCities"/>
+        <table class="table table-borderless">
+        <tbody>
+        <tr v-for="(row, rindex) in game" :key="rindex">
+        <td v-for="(col, cindex) in row" :key="cindex">
+            <div class="card-border m-2">
+            <img :src="cards[cindex * 3 + rindex] && cards[cindex * 3 + rindex].image" alt="img" class="card-image"/>
+            </div>
+        </td>
+      </tr>
+        </tbody>
+    </table>
+        <!-- <div class="d-flex flex-wrap m-3">
+            <div v-for='c in cards' v-bind:key='c._id'></div>
+                <b-card
+                    v-for='c in cards' v-bind:key='c._id'
+                    class="m-2" 
+                    v-bind:title="c.city"
+                    v-bind:img-src="c.image" 
+                    img-alt="Image"
+                    img-top
+                    style="width:15rem; height:10rem;"
+                > 
+                </b-card>
         </div> -->
-        <div v-for='c in cards' v-bind:key='c._id'>
-            <h2>{{c.city}}</h2>
-            <ul>
-                <li>Image: {{c.image}}</li>
-                <li>Match With: {{c.match_with}}</li>
-            </ul>
-        </div>
+        
     </div>
 </template>
 
@@ -21,31 +34,33 @@ import axios from 'axios'
 
 export default {
     created:async function(){
-        let response = await axios.get('https://3000-d58f1a61-1f15-4f9b-80ad-bcfc7709ddf3.ws-us03.gitpod.io/');
+        let response = await axios.get('https://3000-f24adeeb-0634-4252-a732-713ee7ce62f1.ws-eu03.gitpod.io/');
         this.cards = response.data;
     },
     data:function(){
         return {
-            'cards':[]
-            // 'searchCities':''
+            game:[
+                ["","","",""],
+                ["","","",""],
+                ["","","",""]
+            ],
+            cards:[]
         }
-    },
-    // methods:{
-    //     loadCities: async function(){
-    //         let response = await axios.get('https://3000-b7922321-9a58-4310-8255-84781f5cb1d2.ws-us03.gitpod.io/faults/');
-    //         this.cards = response.data;
-    //     },
-    // },
-    // computed:{
-    //     results:function(){
-    //         return this.cards.filter((eachCard)=>{
-    //             return eachCard.title.toLowerCase().includes(this.searchTitle.toLowerCase()); 
-    //         })
-    //     }
-    // }
+    }
 }
 </script>
 
 <style scoped>
+.card-border{
+    height:160px;
+    width:240px;
+    border: 2px black solid;
+    border-radius : 5px;
+}
 
+.card-image {
+    height: 156px;
+    width: 236px;
+    object-fit: cover;
+}
 </style>

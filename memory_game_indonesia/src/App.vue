@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <ul>
+  <div id="app" class="container">
+      <ul>
           <li><router-link to="/cards">Display Cards</router-link></li>
           <li><router-link to="/scores">Display scores</router-link></li>
       </ul>
@@ -9,6 +9,7 @@
 </template>
 
 <script>
+
 
 export default {
   name: 'App',
