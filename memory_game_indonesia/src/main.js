@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 import Cards from './components/Cards'
-// import ScoreBoard from './components/ScoreBoard'
+import ScoreBoard from './components/ScoreBoard'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -12,8 +12,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false
 
 const routes = [
-    {path:'/cards', component: Cards}
-    // {path:'/scores', component: ScoreBoard}
+    {path:'/cards', component: Cards},
+    {path:'/scores', component: ScoreBoard}
 
 ]
 

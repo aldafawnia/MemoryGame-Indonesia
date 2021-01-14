@@ -7,12 +7,13 @@
         <tr v-for="(row, rindex) in game" :key="rindex">
         <td v-for="(col, cindex) in row" :key="cindex">
             <div class="card-border m-2">
-            <img :src="cards[cindex * 3 + rindex] && cards[cindex * 3 + rindex].image" alt="img" class="card-image" v-on:click="pictures(cindex,rindex)"/>
+            <img :src="cards[cindex * 3 + rindex] && cards[cindex * 3 + rindex].image" alt="img" class="card-image" v-on:click="pictures(cards[cindex * 3 + rindex])"/>
             </div>
         </td>
       </tr>
         </tbody>
     </table>  
+    <button @click="decrease">Decrease</button>
     </div>
 </template>
 
@@ -24,17 +25,82 @@ export default {
     created:async function(){
         let response = await axios.get('https://3000-f24adeeb-0634-4252-a732-713ee7ce62f1.ws-eu03.gitpod.io/');
         this.cards = response.data;
+        this.remainingMoves = 6
+
     },
     data:function(){
         return {
+            remainingMoves:6,
             game:[
                 ["","","",""],
                 ["","","",""],
                 ["","","",""]
             ],
-            cards:[]
+            cards:[],
+            flippedCards:0,
+            card1:0,
+            card2:0,
+            cardsLeft:5
         }
-    }
+    },
+    methods: {
+        decrease() {
+            this.cardsLeft -= 1
+        },
+        pictures:function(card){
+            if (this.flippedCards == 0){
+                this.card1 = card.card_id
+                this.flippedCards += 1
+                
+            console.log(this.card1,this.card2)
+            } else {
+                this.card2 = card.card_id
+                // if (this.card1 == 1){
+                //     if (this.card2 == 3){
+                //         alert("Matched!")
+                //     }
+                // } else if (this.card1 == 3){
+                //     if (this.card2 == 1){
+                //         alert('Matched!')
+                //     }
+                // } else if (this.card1 == 2){
+                //     if (this.card2 == 4){
+                //         alert('Matched!')
+                //     }
+                // } else if (this.card1 == 4){
+                //     if (this.card2 == 2){
+                //         alert("Matched!")
+                //     }
+                // }
+
+                if (this.card1 == 1 || this.card1 == 2) {
+                    if (this.card2-2 == this.card1) {
+                        alert("Matched")
+                    }
+                } else {
+                    if (this.card2+2 == this.card1) {
+                        alert("Matched")
+                    }
+                }
+                this.flippedCards = 0
+                this.remainingMoves -= 1
+                console.log(this.remainingMoves)
+            console.log(this.card1,this.card2)
+                this.card1 = 0
+                this.card2 = 0
+            }
+
+            
+        }
+    }, 
+
+     watch: {
+         remainingMoves: function() {
+            if (this.remainingMoves == 0) {
+                alert("Game Over!")
+            }
+         }
+     }
 }
 </script>
 
@@ -44,6 +110,10 @@ export default {
     width:240px;
     border: 2px black solid;
     border-radius : 5px;
+}
+
+.card-border:hover{
+    cursor:pointer;
 }
 
 .card-image {
