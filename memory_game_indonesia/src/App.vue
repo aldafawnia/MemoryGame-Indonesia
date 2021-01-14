@@ -1,20 +1,19 @@
 <template>
-  <div id="app" class="container">
-      <ul>
-          <li><router-link to="/cards">Display Cards</router-link></li>
-          <li><router-link to="/scores">Display scores</router-link></li>
-      </ul>
+  <div id="app">
+      <Navbar/>
+      <div class="container">
       <router-view></router-view>
+      </div>
   </div>
 </template>
 
 <script>
-
+import Navbar from "./components/Navbar"
 
 export default {
   name: 'App',
   components: {
-    
+    Navbar
   }
 }
 </script>

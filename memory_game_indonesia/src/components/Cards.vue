@@ -1,36 +1,24 @@
 <template>
     <div class="container">
-        <h1> Cards </h1>
+        <br>
+        <h1> Match the City with Landmarks </h1>
         <table class="table table-borderless">
         <tbody>
         <tr v-for="(row, rindex) in game" :key="rindex">
         <td v-for="(col, cindex) in row" :key="cindex">
             <div class="card-border m-2">
-            <img :src="cards[cindex * 3 + rindex] && cards[cindex * 3 + rindex].image" alt="img" class="card-image"/>
+            <img :src="cards[cindex * 3 + rindex] && cards[cindex * 3 + rindex].image" alt="img" class="card-image" v-on:click="pictures(cindex,rindex)"/>
             </div>
         </td>
       </tr>
         </tbody>
-    </table>
-        <!-- <div class="d-flex flex-wrap m-3">
-            <div v-for='c in cards' v-bind:key='c._id'></div>
-                <b-card
-                    v-for='c in cards' v-bind:key='c._id'
-                    class="m-2" 
-                    v-bind:title="c.city"
-                    v-bind:img-src="c.image" 
-                    img-alt="Image"
-                    img-top
-                    style="width:15rem; height:10rem;"
-                > 
-                </b-card>
-        </div> -->
-        
+    </table>  
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+// import stack from '../data-structures/stack'
 
 export default {
     created:async function(){
@@ -63,4 +51,5 @@ export default {
     width: 236px;
     object-fit: cover;
 }
+
 </style>
