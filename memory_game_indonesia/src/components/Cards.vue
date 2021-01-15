@@ -1,7 +1,10 @@
 <template>
     <div class="container">
         <br>
+        <div id="headline">
         <h1> Match the City with Landmarks </h1>
+        <h2> Timer </h2>
+        </div>
         <table class="table table-borderless">
         <tbody>
         <tr v-for="(row, rindex) in game" :key="rindex">
@@ -131,6 +134,11 @@ export default {
     height: 156px;
     width: 236px;
     object-fit: cover;
+}
+
+#headline {
+    display:flex;
+    justify-content: space-between;
 }
 
 </style>
