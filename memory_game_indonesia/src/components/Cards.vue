@@ -24,7 +24,7 @@
             Checkout your scores below! 
         </p>
         <p class="my-4">
-
+            Time Taken to finish: {{timer}}s
             <!-- <tr v-for="row in ScoreBoard" :key="row.level">
             <td>{{ row.username }}</td>
             <td>{{ row.base | number }} / {{ row.base_easy | number }}</td>
