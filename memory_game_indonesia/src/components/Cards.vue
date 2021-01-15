@@ -3,7 +3,7 @@
         <br>
         <div id="headline">
         <h1> Match the City with Landmarks </h1>
-        <h2> Timer </h2>
+        <h3> Timer {{timer}} </h3>
         </div>
         <table class="table table-borderless">
         <tbody>
@@ -45,6 +45,9 @@ export default {
         this.cards = response.data;
         this.remainingMoves = 6
 
+        setInterval(()=> {
+            this.timer += 1
+        },1000)
     },
     data:function(){
         return {
@@ -58,7 +61,8 @@ export default {
             flippedCards:0,
             card1:0,
             card2:0,
-            cardsLeft:5
+            cardsLeft:5,
+            timer:0,
         }
     },
     methods: {
