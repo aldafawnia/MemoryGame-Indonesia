@@ -13,7 +13,22 @@
       </tr>
         </tbody>
     </table>  
-    <button @click="decrease">Decrease</button>
+    <div>
+        <!-- <b-button v-b-modal.modal-1>Game Modal</b-button> -->
+
+        <b-modal id="modal-1" title="Game Over!">
+        <p class="my-4">Checkout Wonderful Indonesia official webpage to know more about the history of these landmarks!
+            Checkout your scores below! 
+        </p>
+        <p class="my-4">
+            <!-- <tr v-for="row in ScoreBoard" :key="row.level">
+            <td>{{ row.username }}</td>
+            <td>{{ row.base | number }} / {{ row.base_easy | number }}</td>
+            <td>{{ row.roulette | number }} / {{ row.roulette_easy | number }}</td>
+          </tr> -->
+        </p>
+        </b-modal>
+    </div>
     </div>
 </template>
 
@@ -23,7 +38,7 @@ import axios from 'axios'
 
 export default {
     created:async function(){
-        let response = await axios.get('https://3000-f24adeeb-0634-4252-a732-713ee7ce62f1.ws-eu03.gitpod.io/');
+        let response = await axios.get('https://3000-f24adeeb-0634-4252-a732-713ee7ce62f1.ws-us03.gitpod.io/');
         this.cards = response.data;
         this.remainingMoves = 6
 
@@ -50,9 +65,8 @@ export default {
         pictures:function(card){
             if (this.flippedCards == 0){
                 this.card1 = card.card_id
-                this.flippedCards += 1
-                
-            console.log(this.card1,this.card2)
+                this.flippedCards += 1    
+            // console.log(this.card1,this.card2)
             } else {
                 this.card2 = card.card_id
                 // if (this.card1 == 1){
@@ -72,7 +86,6 @@ export default {
                 //         alert("Matched!")
                 //     }
                 // }
-
                 if (this.card1 == 1 || this.card1 == 2) {
                     if (this.card2-2 == this.card1) {
                         alert("Matched")
@@ -84,20 +97,18 @@ export default {
                 }
                 this.flippedCards = 0
                 this.remainingMoves -= 1
-                console.log(this.remainingMoves)
-            console.log(this.card1,this.card2)
+                // console.log(this.remainingMoves)
+                // console.log(this.card1,this.card2)
                 this.card1 = 0
                 this.card2 = 0
-            }
-
-            
-        }
+            }   
+        },
+        
     }, 
-
      watch: {
          remainingMoves: function() {
-            if (this.remainingMoves == 0) {
-                alert("Game Over!")
+            if (this.remainingMoves <= 0) {
+                this.$bvModal.show('modal-1')
             }
          }
      }
