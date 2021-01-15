@@ -25,6 +25,16 @@
         </p>
         <p class="my-4">
             Time Taken to finish: {{timer}}s
+        </p>
+        <p>
+        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="formname"
+          placeholder="Enter username"
+          required
+        ></b-form-input>
+        </b-form-group>
             <!-- <tr v-for="row in ScoreBoard" :key="row.level">
             <td>{{ row.username }}</td>
             <td>{{ row.base | number }} / {{ row.base_easy | number }}</td>
@@ -68,6 +78,7 @@ export default {
             cardsLeft:5,
             timer:0,
             finished: false,
+            formname: "",
         }
     },
     methods: {
@@ -115,7 +126,28 @@ export default {
                 this.card2 = 0
             }   
         },
-        
+        resetModal() {
+        this.formname = ''
+        this.nameState = null
+        },
+        handleOk(bvModalEvt) {
+        // Prevent modal from closing
+        bvModalEvt.preventDefault()
+        // Trigger submit handler
+        this.handleSubmit()
+        },
+        handleSubmit() {
+        // Exit when the form isn't valid
+        if (!this.checkFormValidity()) {
+          return
+        }
+        // Push the name to submitted names
+        this.submittedNames.push(this.name)
+        // Hide the modal manually
+        this.$nextTick(() => {
+          this.$bvModal.hide('modal-prevent-closing')
+        })
+      }
     }, 
      watch: {
          remainingMoves: function() {
@@ -124,7 +156,7 @@ export default {
                 this.finished = true
             }
          }
-     }
+     },
 }
 </script>
 
