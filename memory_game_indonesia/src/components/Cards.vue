@@ -24,6 +24,7 @@
             Checkout your scores below! 
         </p>
         <p class="my-4">
+
             <!-- <tr v-for="row in ScoreBoard" :key="row.level">
             <td>{{ row.username }}</td>
             <td>{{ row.base | number }} / {{ row.base_easy | number }}</td>
@@ -45,9 +46,12 @@ export default {
         this.cards = response.data;
         this.remainingMoves = 6
 
-        setInterval(()=> {
+        let testing = setInterval(()=> {
             this.timer += 1
-        },1000)
+            if (this.finished == true){
+            clearInterval(testing)
+        }
+        },1000);
     },
     data:function(){
         return {
@@ -63,6 +67,7 @@ export default {
             card2:0,
             cardsLeft:5,
             timer:0,
+            finished: false,
         }
     },
     methods: {
@@ -116,6 +121,7 @@ export default {
          remainingMoves: function() {
             if (this.remainingMoves <= 0) {
                 this.$bvModal.show('modal-1')
+                this.finished = true
             }
          }
      }
