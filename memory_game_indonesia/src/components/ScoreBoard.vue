@@ -28,7 +28,7 @@ export default {
         }
     },
     created:async function(){
-        let response = await axios.get('https://3000-f24adeeb-0634-4252-a732-713ee7ce62f1.ws-eu03.gitpod.io/score');
+        let response = await axios.get('https://af-memory-api.herokuapp.com/score');
         this.scoreBoard = response.data;
     },
 

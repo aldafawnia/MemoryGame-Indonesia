@@ -38,7 +38,7 @@ import axios from 'axios'
 
 export default {
     created:async function(){
-        let response = await axios.get('https://3000-f24adeeb-0634-4252-a732-713ee7ce62f1.ws-us03.gitpod.io/');
+        let response = await axios.get('https://af-memory-api.herokuapp.com/cities');
         this.cards = response.data;
         this.remainingMoves = 6
 
