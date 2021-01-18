@@ -11,6 +11,7 @@
         <td v-for="(col, cindex) in row" :key="cindex">
             <div class="card-border m-2">
             <img :src="cards[cindex * 3 + rindex] && cards[cindex * 3 + rindex].image" alt="img" class="card-image" v-on:click="pictures(cards[cindex * 3 + rindex])"/>
+            <!-- cindex,rindex -->
             </div>
         </td>
       </tr>
@@ -23,6 +24,7 @@
         </p>
         <p class="my-4">
             Time Taken to finish: {{timer}}s
+            Score Achieved: {{points}}
         </p>
         <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
         <b-form-input
@@ -50,6 +52,7 @@ export default {
         this.cards = response.data;
         this.remainingMoves = 6
 
+
         let testing = setInterval(()=> {
             this.timer += 1
             if (this.finished == true){
@@ -73,6 +76,9 @@ export default {
             timer:0,
             finished: false,
             formname: "",
+            timing: [],
+            points: 0,
+            // position: []
         }
     },
     methods: {
@@ -80,6 +86,13 @@ export default {
             this.cardsLeft -= 1
         },
         pictures:function(card){
+
+            // let position = c * 3 + r;
+
+            // if (this.position[0] != position) {
+            // this.compareTiles.push(t.name);
+            // this.checkPosition.push(position);
+
             if (this.flippedCards == 0){
                 this.card1 = card.card_id
                 this.flippedCards += 1    
@@ -106,19 +119,23 @@ export default {
                 if (this.card1 == 1 || this.card1 == 2) {
                     if (this.card2-2 == this.card1) {
                         alert("Matched")
+                        this.points += 3
                     }
                 } else {
                     if (this.card2+2 == this.card1) {
                         alert("Matched")
+                        this.points += 3
                     }
-                }
+                } 
+
                 this.flippedCards = 0
                 this.remainingMoves -= 1
                 // console.log(this.remainingMoves)
                 // console.log(this.card1,this.card2)
                 this.card1 = 0
                 this.card2 = 0
-            }   
+            } 
+
         },
         resetModal() {
         this.formname = ''
@@ -138,12 +155,15 @@ export default {
             if (!usernames.includes(this.formname)){
                 await axios.post ('https://af-memory-api.herokuapp.com/score',{
                 username: this.formname,
-                time: this.timer
+                time: this.timer,
+                score: this.points
             })
-            } else {
+            } else if(usernames.includes(this.formname) && this.points >= 9){
                 await axios.patch ('https://af-memory-api.herokuapp.com/score/' + this.formname,{
-                    time: this.timer
+                    time: this.timer,
+                    score: this.points
                 })
+                // console.log(this.points)
             }
 
             this.$router.push ('scores')  
@@ -188,5 +208,4 @@ export default {
     display:flex;
     justify-content: space-between;
 }
-
 </style>
