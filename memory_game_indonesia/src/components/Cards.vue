@@ -17,16 +17,13 @@
         </tbody>
     </table>  
     <div>
-        <!-- <b-button v-b-modal.modal-1>Game Modal</b-button> -->
-
-        <b-modal id="modal-1" title="Game Over!">
+        <b-modal id="modal-1" title="Game Over!" no-close-on-backdrop>
         <p class="my-4">Checkout Wonderful Indonesia official webpage to know more about the history of these landmarks!
             Checkout your scores below! 
         </p>
         <p class="my-4">
             Time Taken to finish: {{timer}}s
         </p>
-        <p>
         <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
         <b-form-input
           id="input-2"
@@ -35,12 +32,9 @@
           required
         ></b-form-input>
         </b-form-group>
-            <!-- <tr v-for="row in ScoreBoard" :key="row.level">
-            <td>{{ row.username }}</td>
-            <td>{{ row.base | number }} / {{ row.base_easy | number }}</td>
-            <td>{{ row.roulette | number }} / {{ row.roulette_easy | number }}</td>
-          </tr> -->
-        </p>
+        <template #modal-footer>
+            <b-button @click="board">See Leader Board</b-button>
+        </template>
         </b-modal>
     </div>
     </div>
@@ -130,25 +124,37 @@ export default {
         this.formname = ''
         this.nameState = null
         },
-        handleOk(bvModalEvt) {
-        // Prevent modal from closing
-        bvModalEvt.preventDefault()
-        // Trigger submit handler
-        this.handleSubmit()
-        },
-        handleSubmit() {
+        board:async function() {
         // Exit when the form isn't valid
-        if (!this.checkFormValidity()) {
-          return
+        if (this.formname !== "") {
+            let response = await axios.get ('https://af-memory-api.herokuapp.com/score')
+
+            let users = response.data;
+            let usernames=[]
+            for(let user of users){
+                usernames.push(user.username)
+            }
+            
+            if (!usernames.includes(this.formname)){
+                await axios.post ('https://af-memory-api.herokuapp.com/score',{
+                username: this.formname,
+                time: this.timer
+            })
+            } else {
+                await axios.patch ('https://af-memory-api.herokuapp.com/score/' + this.formname,{
+                    time: this.timer
+                })
+            }
+
+            this.$router.push ('scores')  
+
+             // Hide the modal manually
+        //     this.$nextTick(() => {
+        //     this.$bvModal.hide('modal-prevent-closing')
+        // })
         }
-        // Push the name to submitted names
-        this.submittedNames.push(this.name)
-        // Hide the modal manually
-        this.$nextTick(() => {
-          this.$bvModal.hide('modal-prevent-closing')
-        })
-      }
     }, 
+        },  
      watch: {
          remainingMoves: function() {
             if (this.remainingMoves <= 0) {
